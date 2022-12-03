@@ -23,11 +23,13 @@
     <ClCompile Include="day1.cpp" />
     <ClCompile Include="day2.cpp" />
     <ClCompile Include="day3.cpp" />
+    <ClCompile Include="day4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="day1.input" />
     <None Include="day2.input" />
     <None Include="day3.input" />
+    <None Include="day4.input" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
