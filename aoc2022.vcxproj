@@ -27,6 +27,7 @@
     <ClCompile Include="day5.cpp" />
     <ClCompile Include="day6.cpp" />
     <ClCompile Include="day7.cpp" />
+    <ClCompile Include="day8.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="day1.input" />
@@ -36,6 +37,7 @@
     <None Include="day5.input" />
     <None Include="day6.input" />
     <None Include="day7.input" />
+    <None Include="day8.input" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
