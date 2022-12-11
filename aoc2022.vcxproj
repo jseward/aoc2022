@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClCompile Include="aoc2022.cpp" />
     <ClCompile Include="day1.cpp" />
+    <ClCompile Include="day10.cpp" />
+    <ClCompile Include="day11.cpp" />
     <ClCompile Include="day2.cpp" />
     <ClCompile Include="day3.cpp" />
     <ClCompile Include="day4.cpp" />
@@ -32,6 +34,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="day1.input" />
+    <None Include="day10.input" />
+    <None Include="day11.input" />
     <None Include="day2.input" />
     <None Include="day3.input" />
     <None Include="day4.input" />
