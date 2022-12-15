@@ -44,6 +44,7 @@
     <None Include="day13.input" />
     <None Include="day14.input" />
     <None Include="day15.input" />
+    <None Include="day15_example.input" />
     <None Include="day2.input" />
     <None Include="day3.input" />
     <None Include="day4.input" />
@@ -52,6 +53,9 @@
     <None Include="day7.input" />
     <None Include="day8.input" />
     <None Include="day9.input" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="bloom_filter.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -168,6 +172,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
