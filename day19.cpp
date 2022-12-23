@@ -40,6 +40,23 @@ struct robot
 struct blueprint
 {
 	std::array<robot, 4> robots;
+	std::array<int, 4> max_costs;
+
+	blueprint()
+	{
+		max_costs.fill(0);
+	}
+
+	void update_max_costs()
+	{
+		for (int i = 0; i < 4; ++i)
+		{
+			for(int j = 0; j < 4; ++j)
+			{
+				max_costs.at(i) = std::max(max_costs.at(i), robots.at(j).cost.at(i));
+			}
+		}
+	}
 };
 
 struct state
@@ -87,20 +104,18 @@ bool can_afford(const std::array<int, 4>& curr_assets, const std::array<int, 4>&
 int get_score(const blueprint& blueprint, int max_minutes)
 {
 	state initial_s;
-	initial_s.minute = 0;
+	initial_s.minute = 1;
 	initial_s.num_robots.at(asset::ore) = 1;
 
 	int most_geodes = 0;
 
 	vector<state> states;
-	states.reserve(999999999);
 	states.push_back(initial_s);
 	while (!states.empty())
 	{
 		auto s = states.back();
 		states.pop_back();
 
-		s.minute += 1;
 		if (s.minute > max_minutes)
 		{
 			if (s.num_assets.at(asset::geode) > most_geodes)
@@ -110,30 +125,52 @@ int get_score(const blueprint& blueprint, int max_minutes)
 		}
 		else
 		{
-			std::vector<int> robot_priorities;
-			for (int robot = 0; robot < 4; ++robot)
+			bool can_ever_exceed_most =
+				(s.num_assets.at(asset::geode) + (max_minutes - s.minute)) > most_geodes;
+			if (can_ever_exceed_most)
 			{
-				if (can_afford(s.num_assets, blueprint.robots.at(robot).cost))
+				std::vector<int> needed_robots;
+				for (int i = 0; i < 4; ++i)
 				{
-					if (robot > 1)
+					if (s.num_robots.at(i) < blueprint.max_costs.at(i) || (i == asset::geode))
 					{
-						robot_priorities.clear();
+						needed_robots.push_back(i);
 					}
+				}
 
-					robot_priorities.push_back(robot);
+				for (int robot : needed_robots)
+				{
+					const auto& cost = blueprint.robots.at(robot).cost;
+					if (can_afford(s.num_assets, cost))
+					{
+						state ns = s;
+						ns.collect();
+						ns.purchase(robot, blueprint.robots.at(robot).cost);
+						ns.minute += 1;
+						states.push_back(ns);
+					}
+					else
+					{
+						int minutes_needed = 0;
+						for (int i = 0; i < 4; ++i)
+						{
+							if (cost.at(i) > 0)
+							{
+								const int needed = cost.at(i) - s.num_assets.at(i);
+								if(needed > 0)
+								{
+									const int minutes = (int)std::ceilf(static_cast<float>(needed) / static_cast<float>(cost.at(i)));
+									minutes_needed = std::max(minutes_needed, minutes);
+								}
+							}
+						}
+						state ns = s;
+						ns.collect();
+						ns.minute += minutes_needed;
+						states.push_back(ns);
+					}
 				}
 			}
-
-			for (int robot : robot_priorities)
-			{
-				state ns = s;
-				ns.collect();
-				ns.purchase(robot, blueprint.robots.at(robot).cost);
-				states.push_back(ns);
-			}
-
-			s.collect();
-			states.push_back(s);
 		}
 	}
 
@@ -158,6 +195,7 @@ void day19_1()
 			b.robots.at(asset::obsidian).set_cost(asset::clay, std::atoi(sm[5].str().c_str()));
 			b.robots.at(asset::geode).set_cost(asset::ore, std::atoi(sm[6].str().c_str()));
 			b.robots.at(asset::geode).set_cost(asset::obsidian, std::atoi(sm[7].str().c_str()));
+			b.update_max_costs();
 			blueprints.push_back(b);
 		}
 	}
@@ -190,6 +228,7 @@ void day19_2()
 			b.robots.at(asset::obsidian).set_cost(asset::clay, std::atoi(sm[5].str().c_str()));
 			b.robots.at(asset::geode).set_cost(asset::ore, std::atoi(sm[6].str().c_str()));
 			b.robots.at(asset::geode).set_cost(asset::obsidian, std::atoi(sm[7].str().c_str()));
+			b.update_max_costs();
 			blueprints.push_back(b);
 		}
 	}

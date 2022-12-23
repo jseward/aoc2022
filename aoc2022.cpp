@@ -15,6 +15,13 @@ void day14();
 void day15();
 void day16();
 void day17();
+void day18();
+void day19();
+void day20();
+void day21();
+void day22();
+void day23();
+void day24();
 
 int main()
 {
@@ -34,5 +41,12 @@ int main()
 	//day14();
 	//day15();
 	//day16();
-	day17();
+	//day17();
+	//day18();
+	//day19();
+	//day20();
+	//day21();
+	day22();
+	//day23();
+	//day24();
 }
